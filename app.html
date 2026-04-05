@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Buddi - Familienassistent für Deutschland | buddiapp.de</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Desktop Layout Structure */
+        .desktop-container {
+            display: grid;
+            grid-template-areas:
+                "header header header"
+                "sidebar main panels";
+            grid-template-columns: 280px 1fr 320px;
+            grid-template-rows: 80px 1fr;
+            height: 100vh;
+        }
+
+        /* Header */
+        .desktop-header {
+            grid-area: header;
+            background: rgba(26, 26, 46, 0.95);
+            border-bottom: 1px solid rgba(129, 140, 248, 0.2);
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            padding: 0 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-left {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-section h1 {
+            font-size: 2rem;
+            background: linear-gradient(45deg, #818cf8, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .domain-badge {
+            background: linear-gradient(45deg, #818cf8, #22c55e);
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .header-center {
+            flex: 2;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 25px;
+            padding: 12px 20px;
+            width: 400px;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .header-right {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #818cf8, #22c55e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        /* Sidebar Navigation */
+        .desktop-sidebar {
+            grid-area: sidebar;
+            background: rgba(26, 26, 46, 0.95);
+            border-right: 1px solid rgba(129, 140, 248, 0.2);
+            padding: 30px 0;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 40px;
+        }
+
+        .nav-section h3 {
+            color: #818cf8;
+            padding: 0 30px 15px 30px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(129, 140, 248, 0.15);
+            border-left-color: #818cf8;
+        }
+
+        .nav-item .icon {
+            font-size: 1.3rem;
+            margin-right: 15px;
+            width: 25px;
+            text-align: center;
+        }
+
+        .nav-item .label {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .nav-item .badge {
+            margin-left: auto;
+            background: #22c55e;
+            color: #ffffff;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+
+        /* Main Content Area */
+        .desktop-main {
+            grid-area: main;
+            padding: 30px;
+            overflow-y: auto;
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.5) 0%, rgba(26, 26, 46, 0.5) 100%);
+        }
+
+        .main-header {
+            margin-bottom: 30px;
+        }
+
+        .main-header h2 {
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .main-header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+
+        /* Content Cards Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            border-color: #818cf8;
+            box-shadow: 0 25px 50px rgba(129, 140, 248, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            color: #ffffff;
+        }
+
+        .card-content {
+            color: #a0a0a0;
+            line-height: 1.6;
+        }
+
+        /* Chat Section */
+        .chat-section {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            space: 15px;
+        }
+
+        .chat-message {
+            background: rgba(129, 140, 248, 0.1);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-left: 3px solid #818cf8;
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        .chat-message.user {
+            background: rgba(34, 197, 94, 0.1);
+            border-left-color: #22c55e;
+            margin-left: 50px;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 25px;
+            padding: 15px 20px;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .chat-send {
+            background: linear-gradient(45deg, #818cf8, #22c55e);
+            border: none;
+            border-radius: 25px;
+            padding: 15px 25px;
+            color: #ffffff;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Panels Right Side */
+        .desktop-panels {
+            grid-area: panels;
+            background: rgba(26, 26, 46, 0.95);
+            border-left: 1px solid rgba(129, 140, 248, 0.2);
+            overflow-y: auto;
+        }
+
+        .panel {
+            padding: 25px;
+            border-bottom: 1px solid rgba(129, 140, 248, 0.1);
+        }
+
+        .panel h3 {
+            color: #818cf8;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* Quick Stats */
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-value {
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        /* Goals Progress */
+        .goal-item {
+            margin-bottom: 20px;
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #818cf8, #22c55e);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        /* Recent Activity */
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .activity-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #818cf8, #22c55e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 0.9rem;
+        }
+
+        .activity-text {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .activity-time {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Document Management Styles */
+        .upload-area {
+            border: 3px dashed rgba(129, 140, 248, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover, .upload-area.drag-over {
+            border-color: #818cf8;
+            background: rgba(129, 140, 248, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        .upload-text h3 {
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .upload-text p {
+            color: #a0a0a0;
+            margin-bottom: 20px;
+        }
+
+        .upload-formats {
+            font-size: 0.9rem !important;
+            color: #666 !important;
+        }
+
+        .upload-button {
+            background: linear-gradient(45deg, #818cf8, #22c55e);
+            border: none;
+            border-radius: 25px;
+            padding: 15px 30px;
+            color: #ffffff;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .upload-button:hover {
+            transform: scale(1.05);
+        }
+
+        .category-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover {
+            border-color: #22c55e;
+        }
+
+        .doc-count {
+            color: #22c55e;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .documents-list {
+            margin-top: 20px;
+        }
+
+        .document-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .document-item:hover {
+            background: rgba(129, 140, 248, 0.1);
+            border-color: rgba(129, 140, 248, 0.3);
+        }
+
+        .doc-icon {
+            font-size: 2rem;
+            width: 50px;
+            text-align: center;
+        }
+
+        .doc-info {
+            flex: 1;
+        }
+
+        .doc-name {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .doc-meta {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+
+        .doc-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .doc-btn {
+            background: rgba(129, 140, 248, 0.2);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 10px;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .doc-btn:hover {
+            background: rgba(129, 140, 248, 0.4);
+            transform: scale(1.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .desktop-container {
+                grid-template-columns: 250px 1fr;
+                grid-template-areas:
+                    "header header"
+                    "sidebar main";
+            }
+            .desktop-panels {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .desktop-container {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "header"
+                    "main";
+            }
+            .desktop-sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="desktop-container">
+        <!-- Header -->
+        <header class="desktop-header">
+            <div class="header-left">
+                <div class="logo-section">
+                    <h1>🚀 Buddi</h1>
+                    <div class="domain-badge">buddiapp.de</div>
+                </div>
+            </div>
+
+            <div class="header-center">
+                <input type="text" class="search-bar" placeholder="Frage Buddy alles über deine Familie..." />
+            </div>
+
+            <div class="header-right">
+                <div style="color: #22c55e;">🟢 Online</div>
+                <div class="user-avatar">👨‍👩‍👧‍👦</div>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <nav class="desktop-sidebar">
+            <div class="nav-section">
+                <h3>Hauptbereiche</h3>
+                <div class="nav-item active" onclick="showContent('chat')">
+                    <span class="icon">🤖</span>
+                    <span class="label">Chat mit Buddy</span>
+                    <span class="badge">AI</span>
+                </div>
+                <div class="nav-item" onclick="showContent('goals')">
+                    <span class="icon">🎯</span>
+                    <span class="label">Familienziele</span>
+                    <span class="badge">3</span>
+                </div>
+                <div class="nav-item" onclick="showContent('finance')">
+                    <span class="icon">💰</span>
+                    <span class="label">Finanzen</span>
+                </div>
+                <div class="nav-item" onclick="showContent('health')">
+                    <span class="icon">💪</span>
+                    <span class="label">Gesundheit</span>
+                </div>
+                <div class="nav-item" onclick="showContent('nutrition')">
+                    <span class="icon">🥗</span>
+                    <span class="label">Ernährung</span>
+                </div>
+                <div class="nav-item" onclick="showContent('home')">
+                    <span class="icon">🏠</span>
+                    <span class="label">Haushalt</span>
+                </div>
+                <div class="nav-item" onclick="showContent('documents')">
+                    <span class="icon">📁</span>
+                    <span class="label">Dokumente</span>
+                    <span class="badge">12</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Services</h3>
+                <div class="nav-item" onclick="showContent('expat')">
+                    <span class="icon">🇩🇪</span>
+                    <span class="label">Expat Hilfe</span>
+                </div>
+                <div class="nav-item" onclick="showContent('partners')">
+                    <span class="icon">🏪</span>
+                    <span class="label">Partner Rabatte</span>
+                    <span class="badge">127€</span>
+                </div>
+                <div class="nav-item" onclick="showContent('impact')">
+                    <span class="icon">🌱</span>
+                    <span class="label">Sozial Impact</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Verwaltung</h3>
+                <div class="nav-item" onclick="showContent('settings')">
+                    <span class="icon">⚙️</span>
+                    <span class="label">Einstellungen</span>
+                </div>
+                <div class="nav-item" onclick="showContent('help')">
+                    <span class="icon">❓</span>
+                    <span class="label">Hilfe & FAQ</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="desktop-main">
+            <!-- Chat Content -->
+            <div id="chat-content" class="content-section active">
+                <div class="main-header">
+                    <h2>🤖 Chat mit Buddy AI</h2>
+                    <p>Dein persönlicher Familienassistent für Deutschland</p>
+                </div>
+
+                <div class="content-card">
+                    <div class="chat-section">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="chat-message">
+                                <strong>Buddy AI:</strong> Hallo! Ich bin Buddy, dein AI-Familienassistent. Wie kann ich dir heute helfen? 🇩🇪
+                            </div>
+                            <div class="chat-message">
+                                <strong>Buddy AI:</strong> Ich kann dir bei deutschen Behördengängen, Finanzen, Gesundheit, Ernährung und vielen anderen Familienthemen helfen!
+                            </div>
+                        </div>
+
+                        <div class="chat-input-container">
+                            <input type="text" class="chat-input" id="chatInput" placeholder="Schreibe hier deine Nachricht..." />
+                            <button class="chat-send" onclick="sendMessage()">Senden</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documents Content -->
+            <div id="documents-content" class="content-section" style="display: none;">
+                <div class="main-header">
+                    <h2>📁 Dokumenten-Management</h2>
+                    <p>Alle wichtigen Familiendokumente sicher verwalten</p>
+                </div>
+
+                <!-- Upload Area -->
+                <div class="content-card" style="margin-bottom: 30px;">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📤</div>
+                        <div class="upload-text">
+                            <h3>Dokumente hochladen</h3>
+                            <p>Dateien hier hinziehen oder klicken zum Auswählen</p>
+                            <p class="upload-formats">PDF, JPG, PNG, DOC, DOCX (max. 10MB)</p>
+                        </div>
+                        <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style="display: none;">
+                        <button class="upload-button" onclick="document.getElementById('fileInput').click()">
+                            Dateien auswählen
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Document Categories -->
+                <div class="content-grid">
+                    <div class="content-card category-card" onclick="filterDocuments('behorden')">
+                        <div class="card-header">
+                            <div class="card-icon">🇩🇪</div>
+                            <div class="card-title">Behördendokumente</div>
+                        </div>
+                        <div class="card-content">
+                            <p>Anmeldung, Aufenthaltstitel, Steuernummer</p>
+                            <div class="doc-count">4 Dokumente</div>
+                        </div>
+                    </div>
+
+                    <div class="content-card category-card" onclick="filterDocuments('finanzen')">
+                        <div class="card-header">
+                            <div class="card-icon">💰</div>
+                            <div class="card-title">Finanzdokumente</div>
+                        </div>
+                        <div class="card-content">
+                            <p>Steuererklärung, Kontoauszüge, Versicherungen</p>
+                            <div class="doc-count">3 Dokumente</div>
+                        </div>
+                    </div>
+
+                    <div class="content-card category-card" onclick="filterDocuments('gesundheit')">
+                        <div class="card-header">
+                            <div class="card-icon">🏥</div>
+                            <div class="card-title">Gesundheitsdokumente</div>
+                        </div>
+                        <div class="card-content">
+                            <p>Impfpässe, Krankenversicherung, Arztberichte</p>
+                            <div class="doc-count">5 Dokumente</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Documents -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <div class="card-icon">📋</div>
+                        <div class="card-title">Kürzlich hochgeladen</div>
+                    </div>
+                    <div class="documents-list">
+                        <div class="document-item">
+                            <div class="doc-icon">📄</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Anmeldebescheingung_2024.pdf</div>
+                                <div class="doc-meta">Behördendokumente • 245 KB • vor 2 Stunden</div>
+                            </div>
+                            <div class="doc-actions">
+                                <button class="doc-btn">👁️</button>
+                                <button class="doc-btn">📤</button>
+                                <button class="doc-btn">🗑️</button>
+                            </div>
+                        </div>
+
+                        <div class="document-item">
+                            <div class="doc-icon">📊</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Steuererklarung_2023.pdf</div>
+                                <div class="doc-meta">Finanzdokumente • 1.2 MB • vor 1 Tag</div>
+                            </div>
+                            <div class="doc-actions">
+                                <button class="doc-btn">👁️</button>
+                                <button class="doc-btn">📤</button>
+                                <button class="doc-btn">🗑️</button>
+                            </div>
+                        </div>
+
+                        <div class="document-item">
+                            <div class="doc-icon">💉</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Impfpass_Familie.jpg</div>
+                                <div class="doc-meta">Gesundheitsdokumente • 856 KB • vor 3 Tagen</div>
+                            </div>
+                            <div class="doc-actions">
+                                <button class="doc-btn">👁️</button>
+                                <button class="doc-btn">📤</button>
+                                <button class="doc-btn">🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Content Sections (Hidden by default) -->
+            <div id="other-content" class="content-section" style="display: none;">
+                <div class="content-grid">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div class="card-icon">🎯</div>
+                            <div class="card-title">Familienziele Übersicht</div>
+                        </div>
+                        <div class="card-content">
+                            <p>Verfolge den Fortschritt deiner Familienziele und feiere gemeinsame Erfolge.</p>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div class="card-icon">💰</div>
+                            <div class="card-title">Finanz-Dashboard</div>
+                        </div>
+                        <div class="card-content">
+                            <p>Vollständige Übersicht deiner Familienfinanzen mit automatischer Kategorisierung.</p>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div class="card-icon">🇩🇪</div>
+                            <div class="card-title">Expat Services</div>
+                        </div>
+                        <div class="card-content">
+                            <p>Hilfe bei deutschen Behörden, Anmeldung, Steuern und Integration.</p>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="card-header">
+                            <div class="card-icon">🏪</div>
+                            <div class="card-title">Partner Rabatte</div>
+                        </div>
+                        <div class="card-content">
+                            <p>Exklusive Angebote von CHECK24, HelloFresh und lokalen Partnern.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Panels -->
+        <aside class="desktop-panels">
+            <!-- Quick Stats Panel -->
+            <div class="panel">
+                <h3>📊 Schnellübersicht</h3>
+                <div class="stat-item">
+                    <span>Familienbudget</span>
+                    <span class="stat-value">€3,247</span>
+                </div>
+                <div class="stat-item">
+                    <span>Monatliche Ersparnis</span>
+                    <span class="stat-value">€450</span>
+                </div>
+                <div class="stat-item">
+                    <span>Partner Rabatte</span>
+                    <span class="stat-value">€127</span>
+                </div>
+                <div class="stat-item">
+                    <span>Bäume gepflanzt</span>
+                    <span class="stat-value">15 🌱</span>
+                </div>
+            </div>
+
+            <!-- Goals Panel -->
+            <div class="panel">
+                <h3>🎯 Aktuelle Ziele</h3>
+                <div class="goal-item">
+                    <div class="goal-header">
+                        <span>🏠 Eigenheim</span>
+                        <span>65%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%"></div>
+                    </div>
+                </div>
+
+                <div class="goal-item">
+                    <div class="goal-header">
+                        <span>🇩🇪 Deutsch B2</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%"></div>
+                    </div>
+                </div>
+
+                <div class="goal-item">
+                    <div class="goal-header">
+                        <span>💰 Notreserve</span>
+                        <span>42%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 42%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity Panel -->
+            <div class="panel">
+                <h3>📋 Neueste Aktivitäten</h3>
+                <div class="activity-item">
+                    <div class="activity-icon">💰</div>
+                    <div class="activity-text">€127 gespart durch CHECK24</div>
+                    <div class="activity-time">vor 2h</div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">🌱</div>
+                    <div class="activity-text">3 Bäume gepflanzt</div>
+                    <div class="activity-time">vor 1d</div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">🎯</div>
+                    <div class="activity-text">Sparziel erreicht!</div>
+                    <div class="activity-time">vor 2d</div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">🇩🇪</div>
+                    <div class="activity-text">Anmeldung abgeschlossen</div>
+                    <div class="activity-time">vor 3d</div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Navigation functionality
+        function showContent(section) {
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Add active class to clicked item
+            event.currentTarget.classList.add('active');
+
+            // Hide all content sections
+            document.getElementById('chat-content').style.display = 'none';
+            document.getElementById('documents-content').style.display = 'none';
+            document.getElementById('other-content').style.display = 'none';
+
+            // Update main content based on section
+            const mainHeader = document.querySelector('.main-header h2');
+            const mainDescription = document.querySelector('.main-header p');
+
+            if (section === 'chat') {
+                document.getElementById('chat-content').style.display = 'block';
+                mainHeader.innerHTML = '🤖 Chat mit Buddy AI';
+                mainDescription.innerHTML = 'Dein persönlicher Familienassistent für Deutschland';
+            } else if (section === 'documents') {
+                document.getElementById('documents-content').style.display = 'block';
+                mainHeader.innerHTML = '📁 Dokumenten-Management';
+                mainDescription.innerHTML = 'Alle wichtigen Familiendokumente sicher verwalten';
+            } else {
+                document.getElementById('other-content').style.display = 'block';
+
+                const sectionTitles = {
+                    'goals': {title: '🎯 Familienziele', desc: 'Verfolge und erreiche eure gemeinsamen Ziele'},
+                    'finance': {title: '💰 Finanzen', desc: 'Komplette Übersicht eurer Familienfinanzen'},
+                    'health': {title: '💪 Gesundheit', desc: 'Gesundheitsmanagement für die ganze Familie'},
+                    'nutrition': {title: '🥗 Ernährung', desc: 'Gesunde Mahlzeiten und Einkaufsplanung'},
+                    'home': {title: '🏠 Haushalt', desc: 'Haushaltsmanagement und Wartung'},
+                    'expat': {title: '🇩🇪 Expat Hilfe', desc: 'Unterstützung für das Leben in Deutschland'},
+                    'partners': {title: '🏪 Partner Rabatte', desc: 'Exklusive Angebote und Ersparnisse'},
+                    'impact': {title: '🌱 Sozial Impact', desc: 'Euer Beitrag zu einer besseren Welt'},
+                    'settings': {title: '⚙️ Einstellungen', desc: 'App-Konfiguration und Präferenzen'},
+                    'help': {title: '❓ Hilfe & FAQ', desc: 'Support und häufige Fragen'}
+                };
+
+                if (sectionTitles[section]) {
+                    mainHeader.innerHTML = sectionTitles[section].title;
+                    mainDescription.innerHTML = sectionTitles[section].desc;
+                }
+            }
+        }
+
+        // Document Management Functions
+        function filterDocuments(category) {
+            alert('📂 Filtrando documentos de: ' + category.charAt(0).toUpperCase() + category.slice(1));
+        }
+
+        // Drag and Drop functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+
+            if (uploadArea) {
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, preventDefaults, false);
+                });
+
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, highlight, false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, unhighlight, false);
+                });
+
+                function highlight(e) {
+                    uploadArea.classList.add('drag-over');
+                }
+
+                function unhighlight(e) {
+                    uploadArea.classList.remove('drag-over');
+                }
+
+                uploadArea.addEventListener('drop', handleDrop, false);
+
+                function handleDrop(e) {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    handleFiles(files);
+                }
+
+                uploadArea.addEventListener('click', () => {
+                    fileInput.click();
+                });
+
+                fileInput.addEventListener('change', function() {
+                    handleFiles(this.files);
+                });
+
+                function handleFiles(files) {
+                    ([...files]).forEach(file => {
+                        console.log('File uploaded:', file.name, file.size, 'bytes');
+                        // Simulate upload success
+                        setTimeout(() => {
+                            alert('✅ Dokument "' + file.name + '" erfolgreich hochgeladen!');
+                        }, 1000);
+                    });
+                }
+            }
+        });
+
+        // Chat functionality
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const messagesContainer = document.getElementById('chatMessages');
+
+            if (input.value.trim()) {
+                // Add user message
+                const userMessage = document.createElement('div');
+                userMessage.className = 'chat-message user';
+                userMessage.innerHTML = `<strong>Du:</strong> ${input.value}`;
+                messagesContainer.appendChild(userMessage);
+
+                // Clear input
+                const messageText = input.value;
+                input.value = '';
+
+                // Scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                // Simulate Buddy response
+                setTimeout(() => {
+                    const buddyResponse = document.createElement('div');
+                    buddyResponse.className = 'chat-message';
+
+                    // Smart responses based on keywords
+                    let response = "Verstehe! Als dein Familienassistent kann ich dir dabei helfen. 🤖";
+
+                    if (messageText.toLowerCase().includes('geld') || messageText.toLowerCase().includes('finanzen')) {
+                        response = "💰 Für Finanzthemen bin ich bestens gerüstet! Ich kann dir bei Budgetplanung, Sparen und CHECK24 Angeboten helfen.";
+                    } else if (messageText.toLowerCase().includes('deutsch') || messageText.toLowerCase().includes('behörde')) {
+                        response = "🇩🇪 Perfekt! Ich kenne mich mit deutschen Behörden aus und helfe bei Anträgen, Anmeldung und Integration.";
+                    } else if (messageText.toLowerCase().includes('essen') || messageText.toLowerCase().includes('kochen')) {
+                        response = "🥗 Großartig! Ich kann Mal zeiten planen, gesunde Rezepte vorschlagen und HelloFresh Angebote finden.";
+                    } else if (messageText.toLowerCase().includes('ziel') || messageText.toLowerCase().includes('sparen')) {
+                        response = "🎯 Ausgezeichnet! Lass uns gemeinsam deine Familienziele definieren und einen Plan zum Erreichen erstellen.";
+                    }
+
+                    buddyResponse.innerHTML = `<strong>Buddy AI:</strong> ${response}`;
+                    messagesContainer.appendChild(buddyResponse);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, 1000);
+            }
+        }
+
+        // Enter key functionality for chat
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Search bar functionality
+        document.querySelector('.search-bar').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                const chatInput = document.getElementById('chatInput');
+                chatInput.value = this.value;
+                showContent('chat');
+                this.value = '';
+                setTimeout(() => {
+                    sendMessage();
+                }, 500);
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showContent('chat');
+        });
+    </script>
+</body>
+</html>

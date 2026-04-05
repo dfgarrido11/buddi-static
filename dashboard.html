@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Buddi Admin Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #818cf8, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            border-color: #818cf8;
+            box-shadow: 0 20px 40px rgba(129, 140, 248, 0.3);
+        }
+
+        .metric-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #22c55e;
+            margin: 10px 0;
+        }
+
+        .metric-label {
+            font-size: 1.1rem;
+            color: #a0a0a0;
+        }
+
+        .metric-change {
+            font-size: 0.9rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .positive { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .negative { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+        .system-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .system-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .system-name {
+            font-weight: 600;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+
+        .update-time {
+            text-align: center;
+            color: #666;
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+
+        .revenue-section {
+            background: linear-gradient(135deg, rgba(129, 140, 248, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .revenue-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #818cf8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Buddi Admin Dashboard</h1>
+            <p>🇩🇪 Revolutionary Family Assistant Platform - Real-time Analytics</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="metric-card">
+                <span class="metric-icon">👨‍👩‍👧‍👦</span>
+                <div class="metric-value" id="total-families">2,847</div>
+                <div class="metric-label">Familias Registradas</div>
+                <span class="metric-change positive">+23% este mes</span>
+            </div>
+
+            <div class="metric-card">
+                <span class="metric-icon">💰</span>
+                <div class="metric-value" id="total-revenue">€234,890</div>
+                <div class="metric-label">Ingresos Totales</div>
+                <span class="metric-change positive">+18.4% este mes</span>
+            </div>
+
+            <div class="metric-card">
+                <span class="metric-icon">🏪</span>
+                <div class="metric-value" id="active-partners">187</div>
+                <div class="metric-label">Socios Locales Activos</div>
+                <span class="metric-change positive">+12 nuevos</span>
+            </div>
+
+            <div class="metric-card">
+                <span class="metric-icon">🌳</span>
+                <div class="metric-value" id="trees-planted">1,243</div>
+                <div class="metric-label">Árboles Plantados</div>
+                <span class="metric-change positive">Impacto Guatemala</span>
+            </div>
+
+            <div class="metric-card">
+                <span class="metric-icon">🎮</span>
+                <div class="metric-value" id="referrals">892</div>
+                <div class="metric-label">Referidos Activos</div>
+                <span class="metric-change positive">Viral Growth</span>
+            </div>
+
+            <div class="metric-card">
+                <span class="metric-icon">💪</span>
+                <div class="metric-value" id="health-users">1,567</div>
+                <div class="metric-label">Wearables Conectados</div>
+                <span class="metric-change positive">+89% adoption</span>
+            </div>
+        </div>
+
+        <div class="revenue-section">
+            <h2 class="revenue-title">💸 Revenue Breakdown</h2>
+            <div class="dashboard-grid">
+                <div class="metric-card">
+                    <span class="metric-icon">🔗</span>
+                    <div class="metric-value">€89,420</div>
+                    <div class="metric-label">CHECK24 & Afiliados</div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-icon">🏪</span>
+                    <div class="metric-value">€76,230</div>
+                    <div class="metric-label">Socios Locales</div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-icon">🌱</span>
+                    <div class="metric-value">€42,180</div>
+                    <div class="metric-label">HelloFresh & Nutrición</div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-icon">💼</span>
+                    <div class="metric-value">€27,060</div>
+                    <div class="metric-label">Servicios Premium</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="system-status">
+            <h2 style="grid-column: 1/-1; color: #818cf8; margin-bottom: 20px;">🔧 Estado de Sistemas</h2>
+
+            <div class="system-item">
+                <span class="system-name">🤖 AI Chat (Buddy)</span>
+                <div class="status-indicator"></div>
+            </div>
+
+            <div class="system-item">
+                <span class="system-name">💰 Sistema Financiero</span>
+                <div class="status-indicator"></div>
+            </div>
+
+            <div class="system-item">
+                <span class="system-name">🇩🇪 Módulo Expat</span>
+                <div class="status-indicator"></div>
+            </div>
+
+            <div class="system-item">
+                <span class="system-name">🍽️ Sistema Nutrición</span>
+                <div class="status-indicator"></div>
+            </div>
+
+            <div class="system-item">
+                <span class="system-name">🏪 Socios Locales</span>
+                <div class="status-indicator"></div>
+            </div>
+
+            <div class="system-item">
+                <span class="system-name">💪 Salud & Wearables</span>
+                <div class="status-indicator"></div>
+            </div>
+
+            <div class="system-item">
+                <span class="system-name">🏠 Gestión Hogar</span>
+                <div class="status-indicator"></div>
+            </div>
+
+            <div class="system-item">
+                <span class="system-name">🎮 Sistema Referidos</span>
+                <div class="status-indicator"></div>
+            </div>
+
+            <div class="system-item">
+                <span class="system-name">🌱 Impacto Quetz</span>
+                <div class="status-indicator"></div>
+            </div>
+        </div>
+
+        <div class="update-time">
+            📊 Última actualización: <span id="update-time"></span>
+        </div>
+    </div>
+
+    <script>
+        // Actualizar tiempo
+        function updateTime() {
+            document.getElementById('update-time').textContent = new Date().toLocaleString('es-ES');
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Animar números
+        function animateNumber(id, target) {
+            const element = document.getElementById(id);
+            const start = parseInt(element.textContent.replace(/[€,]/g, '')) || 0;
+            const increment = (target - start) / 50;
+            let current = start;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+
+                if (id === 'total-revenue') {
+                    element.textContent = '€' + Math.floor(current).toLocaleString('es-ES');
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString('es-ES');
+                }
+            }, 50);
+        }
+
+        // Simular actualizaciones en tiempo real
+        setInterval(() => {
+            const families = 2847 + Math.floor(Math.random() * 10);
+            const revenue = 234890 + Math.floor(Math.random() * 5000);
+
+            animateNumber('total-families', families);
+            animateNumber('total-revenue', revenue);
+        }, 5000);
+    </script>
+</body>
+</html>
