@@ -1,8 +1,16 @@
 # Netlify configuration for Buddi static site
 [build]
+  # No build command needed - pure HTML site
   publish = "."
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Headers for better performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
